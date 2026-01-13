@@ -9,3 +9,5 @@ static/js/*.obf.js
 *.log
 /.mypy_cache/
 /.pytest_cache/
+Dockerfile
+docker-compose.yml

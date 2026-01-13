@@ -709,7 +709,8 @@ def get_image(image_id):
 with app.app_context():
     db.create_all()
     sync_media_library()
-    # seed_fake_users()
+    if os.environ.get("SEED_FAKE_USERS", "").lower() in {"1", "true", "yes"}:
+        seed_fake_users()
 
 
 if __name__ == "__main__":
