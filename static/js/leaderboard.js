@@ -31,10 +31,16 @@ function renderLeaderboard(entries, currentUser) {
         renderRow(currentUser, true);
     }
 
-    if (currentUser) {
-        selfRank.textContent = `You · #${currentUser.rank}`;
-    } else {
-        selfRank.textContent = "Guest";
+    if (selfRank) {
+        const name = (currentUser?.display_name || currentUser?.username || "").toLowerCase();
+        const hideSelf = !currentUser || name.startsWith("guest");
+        if (hideSelf) {
+            selfRank.textContent = "";
+            selfRank.classList.add("d-none");
+        } else {
+            selfRank.classList.remove("d-none");
+            selfRank.textContent = `You · #${currentUser.rank}`;
+        }
     }
 }
 
