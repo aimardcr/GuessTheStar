@@ -447,6 +447,10 @@ function bindEvents() {
     els.choices.forEach((btn) => {
         btn.addEventListener("click", () => submitAnswer(btn.dataset.id));
     });
+    if (els.gameImage) {
+        els.gameImage.addEventListener("contextmenu", (e) => e.preventDefault());
+        els.gameImage.addEventListener("dragstart", (e) => e.preventDefault());
+    }
     if (els.authUsername) {
         const sanitizeUsername = () => {
             const cleaned = els.authUsername.value.replace(/\s+/g, "");

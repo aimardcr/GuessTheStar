@@ -128,7 +128,7 @@ a {
 }
 
 .image-stage.zoomed img {
-    transform: scale(15) translate(var(--offset-x, 0px), var(--offset-y, 0px));
+    transform: scale(20) translate(var(--offset-x, 0px), var(--offset-y, 0px));
     filter: brightness(0.9);
 }
 
