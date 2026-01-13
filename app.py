@@ -88,6 +88,7 @@ class Person(db.Model):
     id = db.Column(db.String(128), primary_key=True)
     display_name = db.Column(db.String(128), nullable=False)
     image_count = db.Column(db.Integer, default=0)
+    enabled = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     images = db.relationship(
