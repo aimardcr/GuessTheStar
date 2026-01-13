@@ -306,10 +306,11 @@ async function submitAnswer(choiceId) {
         }
         const delay = 2500;
         if (state.session.round_ready) {
+            const drawThreshold = Math.max(0, WIN_THRESHOLD - 1);
             const outcome =
-                state.session.round_correct > WIN_THRESHOLD
+                state.session.round_correct >= WIN_THRESHOLD
                     ? "win"
-                    : state.session.round_correct === WIN_THRESHOLD
+                    : state.session.round_correct === drawThreshold
                     ? "draw"
                     : "lose";
             const summary =
