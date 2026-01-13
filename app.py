@@ -153,7 +153,11 @@ class GameRound(db.Model):
 # Utility helpers
 # ---------------------------------------------------------
 def normalize_username(value: str) -> str:
-    return " ".join((value or "").strip().split()).lower()
+    """
+    Lowercase and strip all whitespace characters entirely.
+    Example: 'Foo Bar ' -> 'foobar'
+    """
+    return "".join((value or "").split()).lower()
 
 
 def hash_file(path: Path) -> str:
@@ -487,19 +491,22 @@ def get_status():
 @app.route("/api/v1/auth/register", methods=["POST"])
 def register():
     payload = request.json or {}
-    username = (payload.get("username") or "").strip()
+    raw_username = (payload.get("username") or "").strip()
+    username = normalize_username(raw_username)
     display_name = (payload.get("display_name") or "").strip()
     password = payload.get("password") or ""
 
     if not username or not display_name or not password:
         return jsonify({"error": "Username, display name, and password are required."}), 400
+    if any(ch.isspace() for ch in raw_username):
+        return jsonify({"error": "Username cannot contain spaces."}), 400
     if len(username) > USERNAME_MAX:
         return jsonify({"error": f"Username must be {USERNAME_MAX} characters or fewer."}), 400
     if len(password) < PASSWORD_MIN:
         return jsonify({"error": f"Password must be at least {PASSWORD_MIN} characters."}), 400
 
     user = User(
-        username=normalize_username(username),
+        username=username,
         display_name=display_name,
         password_hash=generate_password_hash(password),
     )

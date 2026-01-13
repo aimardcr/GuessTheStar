@@ -33,6 +33,13 @@ const els = {
     authError: document.getElementById("authError"),
     loginBtn: document.getElementById("loginBtn"),
     registerBtn: document.getElementById("registerBtn"),
+    loginActions: document.getElementById("loginActions"),
+    registerActions: document.getElementById("registerActions"),
+    loginSwitch: document.getElementById("loginSwitch"),
+    registerSwitch: document.getElementById("registerSwitch"),
+    showRegisterLink: document.getElementById("showRegisterLink"),
+    showLoginLink: document.getElementById("showLoginLink"),
+    authDisplayRow: document.getElementById("authDisplayRow"),
     logoutBtn: document.getElementById("logoutBtn"),
     toast: document.getElementById("toast"),
     openProfile: document.getElementById("openProfile"),
@@ -48,6 +55,7 @@ const els = {
 
 let devToolsFlagged = false;
 let pendingAdvance = null;
+let authMode = "login";
 
 function detectDevTools(allow = 120) {
     if (devToolsFlagged) return;
@@ -73,6 +81,17 @@ function initDevToolsDetection() {
 function setFeedback(message, tone = "muted") {
     els.feedback.textContent = message || "";
     els.feedback.className = tone === "danger" ? "text-danger" : tone === "success" ? "text-success" : "muted";
+}
+
+function setAuthMode(mode = "login") {
+    authMode = mode;
+    const isRegister = mode === "register";
+    els.authDisplayRow?.classList.toggle("d-none", !isRegister);
+    els.loginActions?.classList.toggle("d-none", isRegister);
+    els.registerActions?.classList.toggle("d-none", !isRegister);
+    els.loginSwitch?.classList.toggle("d-none", isRegister);
+    els.registerSwitch?.classList.toggle("d-none", !isRegister);
+    els.authError.textContent = "";
 }
 
 function mulberry32(seed) {
@@ -142,6 +161,7 @@ function setUser(user) {
         els.profileSection.classList.add("d-none");
         els.profileName.textContent = "-";
         els.profileUsername.textContent = "-";
+        setAuthMode("login");
         if (els.openProfile) {
             els.openProfile.textContent = "Login";
             els.openProfile.classList.add("cta-light");
@@ -345,7 +365,8 @@ function showToast(message) {
 }
 
 async function submitAuth(endpoint) {
-    const username = els.authUsername.value.trim();
+    const rawUsername = els.authUsername.value.trim();
+    const username = rawUsername.replace(/\s+/g, "").toLowerCase();
     const password = els.authPassword.value;
     const displayName = els.authName.value.trim() || username;
 
@@ -415,8 +436,34 @@ function bindEvents() {
     els.choices.forEach((btn) => {
         btn.addEventListener("click", () => submitAnswer(btn.dataset.id));
     });
+    if (els.authUsername) {
+        const sanitizeUsername = () => {
+            const cleaned = els.authUsername.value.replace(/\s+/g, "");
+            if (els.authUsername.value !== cleaned) {
+                const pos = els.authUsername.selectionStart;
+                els.authUsername.value = cleaned;
+                if (pos !== null) {
+                    els.authUsername.setSelectionRange(Math.min(pos, cleaned.length), Math.min(pos, cleaned.length));
+                }
+            }
+        };
+        els.authUsername.addEventListener("input", sanitizeUsername);
+        els.authUsername.addEventListener("keydown", (e) => {
+            if (e.key === " ") {
+                e.preventDefault();
+            }
+        });
+    }
     els.loginBtn.addEventListener("click", () => submitAuth("/api/v1/auth/login"));
     els.registerBtn.addEventListener("click", () => submitAuth("/api/v1/auth/register"));
+    els.showRegisterLink?.addEventListener("click", (e) => {
+        e.preventDefault();
+        setAuthMode("register");
+    });
+    els.showLoginLink?.addEventListener("click", (e) => {
+        e.preventDefault();
+        setAuthMode("login");
+    });
     els.profileForm.addEventListener("submit", updateProfile);
     els.logoutBtn.addEventListener("click", logout);
     els.openProfile.addEventListener("click", () => showProfileModal());

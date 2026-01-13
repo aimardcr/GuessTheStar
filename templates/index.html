@@ -115,7 +115,7 @@
                 <label class="form-label stat-label">Username</label>
                 <input class="form-control" id="authUsername" type="text" maxlength="32" autocomplete="username">
             </div>
-            <div class="mb-2">
+            <div class="mb-2" id="authDisplayRow">
                 <label class="form-label stat-label">Display name (for register)</label>
                 <input class="form-control" id="authName" type="text" maxlength="120" autocomplete="nickname">
             </div>
@@ -123,9 +123,17 @@
                 <label class="form-label stat-label">Password</label>
                 <input class="form-control" id="authPassword" type="password" autocomplete="current-password">
             </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-light w-50" id="loginBtn" type="button">Login</button>
-                <button class="btn btn-outline-light w-50" id="registerBtn" type="button">Register</button>
+            <div class="d-flex gap-2" id="loginActions">
+                <button class="btn btn-light w-100" id="loginBtn" type="button">Login</button>
+            </div>
+            <div class="d-flex gap-2 d-none" id="registerActions">
+                <button class="btn btn-light w-100" id="registerBtn" type="button">Register</button>
+            </div>
+            <div class="muted small mt-2" id="loginSwitch">
+                Don't have an account? Register <a href="#" id="showRegisterLink">here</a>!
+            </div>
+            <div class="muted small mt-2 d-none" id="registerSwitch">
+                Already have an account? <a href="#" id="showLoginLink">Login here</a>.
             </div>
             <div class="hint mt-2" id="authError"></div>
         </div>
