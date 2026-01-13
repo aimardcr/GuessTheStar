@@ -26,9 +26,11 @@ jobs:
 
           sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p 3022 72481-4905@gate.infra.dewacloud.com <<'EOF'
           set -e
+          sudo apt-get update -y
+          sudo apt-get install -y git
           cd /root/GuessTheStar
           git pull --ff-only
           ./setup.sh
-          systemctl daemon-reload
-          systemctl restart guessthestar
+          sudo systemctl daemon-reload
+          sudo systemctl restart guessthestar
           EOF

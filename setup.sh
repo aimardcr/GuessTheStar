@@ -18,11 +18,16 @@ if [[ ! -d ".venv" ]]; then
   python -m venv .venv
 fi
 
-if [[ -d ".venv/bin" ]]; then
+if [[ -f ".venv/bin/activate" ]]; then
   source ".venv/bin/activate"
-elif [[ -d ".venv/Scripts" ]]; then
+elif [[ -f ".venv/Scripts/activate" ]]; then
   source ".venv/Scripts/activate"
+else
+  echo "Unable to find venv activation script. Please check .venv creation." >&2
+  exit 1
 fi
+
+echo "Venv ready: $(python -V)"
 
 pip install --upgrade pip
 pip install -r requirements.txt

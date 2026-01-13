@@ -12,6 +12,19 @@ activate_venv() {
   fi
 }
 
+activate_venv
+export PATH="/usr/local/bin:/usr/bin:$PATH"
+
+if ! command -v javascript-obfuscator >/dev/null 2>&1; then
+  echo "javascript-obfuscator not found. Run ./setup.sh first." >&2
+  exit 127
+fi
+
+if ! command -v gunicorn >/dev/null 2>&1; then
+  echo "gunicorn not found. Run ./setup.sh first." >&2
+  exit 127
+fi
+
 javascript-obfuscator static/js/app.js --output static/js/app.js \
   --compact true \
   --control-flow-flattening true \
