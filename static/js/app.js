@@ -558,7 +558,7 @@ function renderSidebarLeaderboard(entries, currentUser) {
             els.sidebarSelf.classList.add("d-none");
         } else {
             els.sidebarSelf.classList.remove("d-none");
-            els.sidebarSelf.textContent = `You are #${currentUser.rank} with ${currentUser.points} pts`;
+            els.sidebarSelf.textContent = `@${currentUser.username} • ${currentUser.points} pts`;
         }
     }
 }
