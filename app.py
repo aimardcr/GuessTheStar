@@ -333,10 +333,18 @@ def build_round_payload(game_session: GameSession):
     if len(people) < CHOICE_COUNT:
         return None, ("Not enough people with images", 500)
 
-    correct_person = random.choice(people)
-    correct_image = pick_random_image(correct_person, game_session.served_images or [])
-    if not correct_image:
-        return None, ("No images available for selected person", 500)
+    used_images = set(game_session.served_images or [])
+    images_query = PersonImage.query.join(Person).filter(Person.enabled.is_(True))
+    if used_images:
+        images_query = images_query.filter(~PersonImage.id.in_(used_images))
+    images = images_query.all()
+    if not images:
+        images = PersonImage.query.join(Person).filter(Person.enabled.is_(True)).all()
+    if not images:
+        return None, ("No images available for enabled people", 500)
+
+    correct_image = random.choice(images)
+    correct_person = correct_image.person
 
     distractors = [p for p in people if p.id != correct_person.id]
     random.shuffle(distractors)
