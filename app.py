@@ -470,7 +470,7 @@ def seed_fake_users(min_count: int = 50) -> None:
 # ---------------------------------------------------------
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", choice_count=CHOICE_COUNT)
 
 
 @app.route("/leaderboard")
