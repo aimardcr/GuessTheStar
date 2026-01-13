@@ -29,7 +29,8 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y git
           cd /root/GuessTheStar
-          git pull --ff-only
+          git fetch --all
+          git reset --hard origin/main
           chmod +x setup.sh && chmod +x start.sh
           ./setup.sh
           sudo systemctl daemon-reload
