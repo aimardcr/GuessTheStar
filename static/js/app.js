@@ -164,7 +164,9 @@ function setUser(user) {
     } else {
         els.authSection.classList.remove("d-none");
         els.profileSection.classList.add("d-none");
-        els.profileName.textContent = "-";
+        if (els.profileName) {
+            els.profileName.textContent = "-";
+        }
         els.profileUsername.textContent = "-";
         setAuthMode("login");
         if (els.openProfile) {
@@ -184,7 +186,7 @@ function clearChoiceStyles() {
     });
 }
 
-async function fetchStatus() {
+async function fetchStatus(retry = 0) {
     try {
         const res = await fetch("/api/v1/status");
         if (!res.ok) throw new Error("Failed to load status");
@@ -193,8 +195,12 @@ async function fetchStatus() {
         setUser(data.user);
         updateProgress(state.session);
     } catch (error) {
-        setFeedback("Cannot load session. Try refreshing.", "danger");
         console.error(error);
+        if (retry < 1) {
+            setTimeout(() => fetchStatus(retry + 1), 800);
+            return;
+        }
+        setFeedback("Cannot load session. Try refreshing.", "danger");
     }
 }
 
