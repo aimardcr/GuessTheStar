@@ -7,8 +7,6 @@ cd "$ROOT_DIR"
 activate_venv() {
   if [[ -d ".venv/bin" ]]; then
     source ".venv/bin/activate"
-  elif [[ -d ".venv/Scripts" ]]; then
-    source ".venv/Scripts/activate"
   fi
 }
 
