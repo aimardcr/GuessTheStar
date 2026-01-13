@@ -433,8 +433,7 @@ async function logout() {
     await fetch("/api/v1/auth/logout", { method: "POST" });
     state.user = null;
     setUser(null);
-    showToast("Signed out.");
-    hideProfileModal();
+    window.location.reload();
 }
 
 function bindEvents() {
