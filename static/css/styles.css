@@ -328,6 +328,14 @@ a {
     font-size: 13px;
 }
 
+.auth-links a {
+    color: var(--accent);
+}
+
+.auth-links a:hover {
+    color: #b7fde3;
+}
+
 .toast {
     position: fixed;
     right: 18px;

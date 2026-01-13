@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <button class="cta" id="openProfile">Profile</button>
+            <button class="cta cta-light" id="openProfile">Login</button>
             <button class="cta d-none" id="logoutBtn" type="button">Logout</button>
         </div>
     </header>
@@ -115,7 +115,7 @@
                 <label class="form-label stat-label">Username</label>
                 <input class="form-control" id="authUsername" type="text" maxlength="32" autocomplete="username">
             </div>
-            <div class="mb-2" id="authDisplayRow">
+            <div class="mb-2 d-none" id="authDisplayRow">
                 <label class="form-label stat-label">Display name (for register)</label>
                 <input class="form-control" id="authName" type="text" maxlength="120" autocomplete="nickname">
             </div>
@@ -129,10 +129,10 @@
             <div class="d-flex gap-2 d-none" id="registerActions">
                 <button class="btn btn-light w-100" id="registerBtn" type="button">Register</button>
             </div>
-            <div class="muted small mt-2" id="loginSwitch">
+            <div class="muted small mt-2 auth-links" id="loginSwitch">
                 Don't have an account? Register <a href="#" id="showRegisterLink">here</a>!
             </div>
-            <div class="muted small mt-2 d-none" id="registerSwitch">
+            <div class="muted small mt-2 d-none auth-links" id="registerSwitch">
                 Already have an account? <a href="#" id="showLoginLink">Login here</a>.
             </div>
             <div class="hint mt-2" id="authError"></div>

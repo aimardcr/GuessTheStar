@@ -92,6 +92,11 @@ function setAuthMode(mode = "login") {
     els.loginSwitch?.classList.toggle("d-none", isRegister);
     els.registerSwitch?.classList.toggle("d-none", !isRegister);
     els.authError.textContent = "";
+    // Reset fields to avoid leaking register-only data in login mode
+    if (!isRegister) {
+        els.authName.value = "";
+    }
+    els.authPassword.value = "";
 }
 
 function mulberry32(seed) {
@@ -508,6 +513,9 @@ function hideResultModal() {
 
 function showProfileModal() {
     if (!els.profileModal) return;
+    if (!state.user) {
+        setAuthMode("login");
+    }
     els.profileModal.classList.add("show");
 }
 
@@ -562,6 +570,7 @@ async function loadSidebarLeaderboard() {
 }
 
 async function init() {
+    setAuthMode("login");
     bindEvents();
     initDevToolsDetection();
     await fetchStatus();
