@@ -1,0 +1,34 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy over SSH
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          if [ -z "$SSH_PASSWORD" ]; then
+            echo "SSH_PASSWORD secret is missing" >&2
+            exit 1
+          fi
+
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p 3022 72481-4905@gate.infra.dewacloud.com <<'EOF'
+          set -e
+          cd /root/GuessTheStar
+          git pull --ff-only
+          ./setup.sh
+          systemctl daemon-reload
+          systemctl restart guessthestar
+          EOF

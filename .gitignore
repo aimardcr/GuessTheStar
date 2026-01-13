@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.sqlite3
+*.db
+node_modules/
+static/js/*.obf.js
+*.log
+/.mypy_cache/
+/.pytest_cache/

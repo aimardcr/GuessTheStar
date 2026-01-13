@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Guess The Star</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="page-shell container py-4">
+    <header class="d-flex align-items-center justify-content-between mb-4">
+        <div class="brand-mark">
+            <div class="brand-icon">★</div>
+            <div>
+                <div class="fs-5">Guess The Star</div>
+                <div class="muted small">Ambatukam 😹</div>
+            </div>
+        </div>
+        <a class="cta" href="/">Back to game</a>
+    </header>
+
+    <section class="glass-card panel">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <div class="card-title">Top 10 Anti Suki of All Time</div>
+                <div class="muted">Points = correct guesses + (rounds won × 10)</div>
+            </div>
+            <span class="badge-minimal" id="selfRank">You</span>
+        </div>
+
+        <div class="leaderboard-row head mb-2">
+            <span>#</span>
+            <span>Name</span>
+            <span>Username</span>
+            <span>Points</span>
+            <span>Win rate</span>
+        </div>
+        <div id="leaderboardBody" class="d-grid gap-2"></div>
+    </section>
+</div>
+
+<script src="/static/js/leaderboard.js"></script>
+</body>
+</html>
