@@ -132,6 +132,7 @@ function setUser(user) {
         els.profileMessage.textContent = "";
         if (els.openProfile) {
             els.openProfile.textContent = "Profile";
+            els.openProfile.classList.remove("cta-light");
         }
         if (els.logoutBtn) {
             els.logoutBtn.classList.remove("d-none");
@@ -143,6 +144,7 @@ function setUser(user) {
         els.profileUsername.textContent = "-";
         if (els.openProfile) {
             els.openProfile.textContent = "Login";
+            els.openProfile.classList.add("cta-light");
         }
         if (els.logoutBtn) {
             els.logoutBtn.classList.add("d-none");
@@ -488,10 +490,14 @@ function renderSidebarLeaderboard(entries, currentUser) {
         container.appendChild(row);
     });
     if (els.sidebarSelf) {
-        if (currentUser) {
-            els.sidebarSelf.textContent = `You are #${currentUser.rank} with ${currentUser.points} pts`;
+        const name = (currentUser?.display_name || currentUser?.username || "").toLowerCase();
+        const hideSelf = !currentUser || name.startsWith("guest");
+        if (hideSelf) {
+            els.sidebarSelf.textContent = "";
+            els.sidebarSelf.classList.add("d-none");
         } else {
-            els.sidebarSelf.textContent = "Sign in to see your rank.";
+            els.sidebarSelf.classList.remove("d-none");
+            els.sidebarSelf.textContent = `You are #${currentUser.rank} with ${currentUser.points} pts`;
         }
     }
 }

@@ -237,6 +237,17 @@ a {
     transform: translateY(-1px);
 }
 
+.cta-light {
+    background: #fff;
+    color: #0f172a;
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+}
+
+.cta-light:hover {
+    border-color: #fff;
+}
+
 .pill-gradient {
     background: linear-gradient(135deg, rgba(126, 240, 197, 0.16), rgba(255, 180, 84, 0.2));
     color: #f8fafc;
