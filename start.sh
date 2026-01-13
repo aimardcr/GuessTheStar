@@ -25,21 +25,16 @@ fi
 
 javascript-obfuscator static/js/app.js --output static/js/app.js \
   --compact true \
-  --control-flow-flattening true \
-  --control-flow-flattening-threshold 1 \
-  --dead-code-injection true \
-  --dead-code-injection-threshold 0.6 \
+  --control-flow-flattening false \
   --disable-console-output true \
   --identifier-names-generator mangled \
-  --numbers-to-expressions true \
   --rename-globals true \
-  --self-defending true \
   --split-strings true \
-  --split-strings-chunk-length 5 \
+  --split-strings-chunk-length 8 \
   --string-array true \
   --string-array-encoding base64 \
-  --string-array-threshold 1 \
-  --string-array-wrappers-count 5 \
+  --string-array-threshold 0.5 \
+  --string-array-wrappers-count 1 \
   --string-array-wrappers-type variable \
   --string-array-wrappers-chained-calls true \
   --string-array-rotate true \
@@ -47,21 +42,16 @@ javascript-obfuscator static/js/app.js --output static/js/app.js \
 
 javascript-obfuscator static/js/leaderboard.js --output static/js/leaderboard.js \
   --compact true \
-  --control-flow-flattening true \
-  --control-flow-flattening-threshold 1 \
-  --dead-code-injection true \
-  --dead-code-injection-threshold 0.6 \
+  --control-flow-flattening false \
   --disable-console-output true \
   --identifier-names-generator mangled \
-  --numbers-to-expressions true \
   --rename-globals true \
-  --self-defending true \
   --split-strings true \
-  --split-strings-chunk-length 5 \
+  --split-strings-chunk-length 8 \
   --string-array true \
   --string-array-encoding base64 \
-  --string-array-threshold 1 \
-  --string-array-wrappers-count 5 \
+  --string-array-threshold 0.5 \
+  --string-array-wrappers-count 1 \
   --string-array-wrappers-type variable \
   --string-array-wrappers-chained-calls true \
   --string-array-rotate true \
