@@ -329,7 +329,7 @@ def pick_random_image(person: Person, used_ids: List[str]) -> Optional[PersonIma
 
 
 def build_round_payload(game_session: GameSession):
-    people = Person.query.filter(Person.image_count > 0).all()
+    people = Person.query.filter(Person.image_count > 0, Person.enabled.is_(True)).all()
     if len(people) < CHOICE_COUNT:
         return None, ("Not enough people with images", 500)
 
