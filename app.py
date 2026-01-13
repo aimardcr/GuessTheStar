@@ -47,7 +47,7 @@ db = SQLAlchemy(app)
 # Constants
 # ---------------------------------------------------------
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"}
-CHOICE_COUNT = 3
+CHOICE_COUNT = 6
 ROUND_SIZE = 10
 WIN_THRESHOLD = 6
 SESSION_TTL = timedelta(minutes=25)
