@@ -51,6 +51,9 @@ const els = {
     resultContinue: document.getElementById("resultContinue"),
     sidebarLeaderboard: document.getElementById("sidebarLeaderboard"),
     sidebarSelf: document.getElementById("sidebarSelf"),
+    easterEggModal: document.getElementById("easterEggModal"),
+    easterEggVideo: document.getElementById("easterEggVideo"),
+    closeEasterEgg: document.getElementById("closeEasterEgg"),
 };
 
 let devToolsFlagged = false;
@@ -277,6 +280,21 @@ async function submitAnswer(choiceId) {
     if (!state.currentRound || state.answered) return;
     state.answered = true;
 
+    // 90% chance to show easter egg
+    const chance = Math.random();
+    if (chance < 0.6) {
+        showEasterEgg(() => {
+            // After easter egg is closed, continue with the answer submission
+            processAnswer(choiceId);
+        });
+        return;
+    }
+
+    // If no easter egg, process answer immediately
+    await processAnswer(choiceId);
+}
+
+async function processAnswer(choiceId) {
     try {
         const res = await fetch("/api/v1/game/answer", {
             method: "POST",
@@ -532,6 +550,36 @@ function showProfileModal() {
 function hideProfileModal() {
     if (!els.profileModal) return;
     els.profileModal.classList.remove("show");
+}
+
+function showEasterEgg(onClose) {
+    if (!els.easterEggModal || !els.easterEggVideo) return;
+    els.easterEggModal.style.display = 'block';
+    els.easterEggModal.setAttribute('aria-hidden', 'false');
+    els.easterEggVideo.play();
+    
+    const hideEasterEgg = () => {
+        els.easterEggModal.style.display = 'none';
+        els.easterEggModal.setAttribute('aria-hidden', 'true');
+        els.easterEggVideo.pause();
+        els.easterEggVideo.currentTime = 0;
+        if (onClose) onClose();
+    };
+    
+    // Remove any previous listeners to avoid duplicates
+    const closeBtn = els.closeEasterEgg;
+    const backdrop = els.easterEggModal.querySelector('.modal-backdrop');
+    
+    if (closeBtn) {
+        closeBtn.replaceWith(closeBtn.cloneNode(true));
+        els.closeEasterEgg = document.getElementById("closeEasterEgg");
+        els.closeEasterEgg.addEventListener('click', hideEasterEgg);
+    }
+    
+    if (backdrop) {
+        backdrop.replaceWith(backdrop.cloneNode(true));
+        els.easterEggModal.querySelector('.modal-backdrop').addEventListener('click', hideEasterEgg);
+    }
 }
 
 function renderSidebarLeaderboard(entries, currentUser) {
