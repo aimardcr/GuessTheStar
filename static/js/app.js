@@ -51,9 +51,7 @@ const els = {
     resultContinue: document.getElementById("resultContinue"),
     sidebarLeaderboard: document.getElementById("sidebarLeaderboard"),
     sidebarSelf: document.getElementById("sidebarSelf"),
-    easterEggModal: document.getElementById("easterEggModal"),
     easterEggVideo: document.getElementById("easterEggVideo"),
-    closeEasterEgg: document.getElementById("closeEasterEgg"),
 };
 
 let devToolsFlagged = false;
@@ -280,9 +278,8 @@ async function submitAnswer(choiceId) {
     if (!state.currentRound || state.answered) return;
     state.answered = true;
 
-    // 90% chance to show easter egg
-    const chance = Math.random();
-    if (chance < 0.6) {
+    // Only show if the URI is something like /#reza
+    if (window.location.hash === "#reza") {
         showEasterEgg(() => {
             // After easter egg is closed, continue with the answer submission
             processAnswer(choiceId);
@@ -553,33 +550,33 @@ function hideProfileModal() {
 }
 
 function showEasterEgg(onClose) {
-    if (!els.easterEggModal || !els.easterEggVideo) return;
-    els.easterEggModal.style.display = 'block';
-    els.easterEggModal.setAttribute('aria-hidden', 'false');
+    if (!els.easterEggVideo || !els.gameImage) return;
+    
+    // Hide the game image and show the video
+    els.gameImage.style.display = 'none';
+    els.easterEggVideo.style.display = 'block';
+    
+    // Make sure image stage stays revealed (no zoom)
+    if (els.imageStage) {
+        els.imageStage.classList.remove('zoomed');
+        els.imageStage.classList.add('revealed');
+    }
+    
+    // Play the video
     els.easterEggVideo.play();
     
+    // When video ends, hide it and continue
     const hideEasterEgg = () => {
-        els.easterEggModal.style.display = 'none';
-        els.easterEggModal.setAttribute('aria-hidden', 'true');
+        els.easterEggVideo.style.display = 'none';
         els.easterEggVideo.pause();
         els.easterEggVideo.currentTime = 0;
+        els.gameImage.style.display = 'block';
+        els.easterEggVideo.removeEventListener('ended', hideEasterEgg);
         if (onClose) onClose();
     };
     
-    // Remove any previous listeners to avoid duplicates
-    const closeBtn = els.closeEasterEgg;
-    const backdrop = els.easterEggModal.querySelector('.modal-backdrop');
-    
-    if (closeBtn) {
-        closeBtn.replaceWith(closeBtn.cloneNode(true));
-        els.closeEasterEgg = document.getElementById("closeEasterEgg");
-        els.closeEasterEgg.addEventListener('click', hideEasterEgg);
-    }
-    
-    if (backdrop) {
-        backdrop.replaceWith(backdrop.cloneNode(true));
-        els.easterEggModal.querySelector('.modal-backdrop').addEventListener('click', hideEasterEgg);
-    }
+    // Auto-hide when video ends
+    els.easterEggVideo.addEventListener('ended', hideEasterEgg, { once: true });
 }
 
 function renderSidebarLeaderboard(entries, currentUser) {
