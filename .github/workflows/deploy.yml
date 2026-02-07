@@ -32,8 +32,6 @@ jobs:
           set -e
           export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -y
-          sudo apt-mark hold git
-          sudo apt-get upgrade -y
           cd /root/GuessTheStar
           git fetch --all
           git reset --hard origin/main
