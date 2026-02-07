@@ -278,13 +278,16 @@ async function submitAnswer(choiceId) {
     if (!state.currentRound || state.answered) return;
     state.answered = true;
 
-    // Only show if the URI is something like /#reza
+    // 75% chance to showEasterEgg if the URI is /#reza
     if (window.location.hash === "#reza") {
-        showEasterEgg(() => {
-            // After easter egg is closed, continue with the answer submission
-            processAnswer(choiceId);
-        });
-        return;
+        if (Math.random() < 0.75) {
+            showEasterEgg(() => {
+                // After easter egg is closed, continue with the answer submission
+                processAnswer(choiceId);
+            });
+            return;
+        }
+        // 25% of the time, fall through and process answer immediately
     }
 
     // If no easter egg, process answer immediately

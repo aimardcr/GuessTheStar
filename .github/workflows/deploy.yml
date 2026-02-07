@@ -19,6 +19,10 @@ jobs:
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -y
+          sudo apt-get install -y git
+          
           if [ -z "$SSH_PASSWORD" ]; then
             echo "SSH_PASSWORD secret is missing" >&2
             exit 1
